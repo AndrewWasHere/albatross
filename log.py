@@ -1,20 +1,8 @@
 """
 Copyright 2015 Andrew Lin.
-
-This file is part of Audiolens.
-
-Audiolens is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Audiolens is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Audiolens.  If not, see <http://www.gnu.org/licenses/>.
+All rights reserved.
+Licensed under the BSD 3-clause License. See LICENSE.txt or
+<http://opensource.org/licenses/BSD-3-Clause>.
 """
 from contextlib import contextmanager
 import logging
@@ -36,21 +24,29 @@ get_logger = logging.getLogger
 
 @contextmanager
 def logger(stream_settings=None, file_settings=None, http_settings=None):
-    """Logging context manager."""
+    """Logging context manager.
+
+    Convenience wrapper to set up and tear down logging.
+
+    Use:
+        with log.logger(<settings>):
+            # Do something.
+
+    Args:
+        stream_settings (dict): Settings for the stream handler, if using.
+        file_settings (dict): Settings for the file handler, if using.
+        http_settings (dict): Settings for the http handler, if using.
+    """
     def base_level():
         """Returns base logging level of all settings."""
-        default_level = WARNING
+        def level(settings):
+            return (settings if settings else {}).get('level', WARNING)
+
         return min(
             (
-                (stream_settings if stream_settings else {}).get(
-                    'level', default_level
-                ),
-                (file_settings if file_settings else {}).get(
-                    'level', default_level
-                ),
-                (http_settings if http_settings else {}).get(
-                    'level', default_level
-                )
+                level(stream_settings),
+                level(file_settings),
+                level(http_settings)
             )
         )
 
@@ -65,7 +61,7 @@ def logger(stream_settings=None, file_settings=None, http_settings=None):
         if http_settings:
             yield _http_handler(**http_settings)
 
-    # Exectuion starts here. ###################################################
+    # Execution starts here. ###################################################
 
     handlers = [h for h in configured_handlers()]
 
