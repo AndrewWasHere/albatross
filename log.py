@@ -78,11 +78,13 @@ def logger(stream_settings=None, file_settings=None, http_settings=None):
             h.close()
 
 
-def _stream_handler(level):
+def _stream_handler(level, stream=None):
     fmt = logging.Formatter(
         '%(filename)s:%(lineno)d|%(levelname)8s|%(message)s'
+        if level <= INFO else
+        '%(levelname)8s|%(message)s'
     )
-    h = logging.StreamHandler()
+    h = logging.StreamHandler(stream)
     h.setLevel(level)
     h.setFormatter(fmt)
     return h
