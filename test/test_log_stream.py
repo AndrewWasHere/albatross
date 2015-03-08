@@ -23,6 +23,20 @@ class StreamHandlerTestCase(unittest.TestCase):
         self.info_msg = 'info log message'
         self.debug_msg = 'debug log message'
 
+    def test_default(self):
+        # Run.
+        with log.logger(stream_settings=self.settings):
+            self._write_log_messages()
+
+        # Test.
+        output = self.stream.getvalue()
+
+        self.assertTrue(self.critical_msg in output)
+        self.assertTrue(self.error_msg in output)
+        self.assertTrue(self.warning_msg in output)
+        self.assertFalse(self.info_msg in output)
+        self.assertFalse(self.debug_msg in output)
+
     def test_critical(self):
         # Setup.
         self.settings['level'] = log.CRITICAL
@@ -31,9 +45,9 @@ class StreamHandlerTestCase(unittest.TestCase):
         with log.logger(stream_settings=self.settings):
             self._write_log_messages()
 
+        # Test.
         output = self.stream.getvalue()
 
-        # Test.
         self.assertTrue(self.critical_msg in output)
         self.assertFalse(self.error_msg in output)
         self.assertFalse(self.warning_msg in output)
@@ -48,9 +62,9 @@ class StreamHandlerTestCase(unittest.TestCase):
         with log.logger(stream_settings=self.settings):
             self._write_log_messages()
 
+        # Test.
         output = self.stream.getvalue()
 
-        # Test.
         self.assertTrue(self.critical_msg in output)
         self.assertTrue(self.error_msg in output)
         self.assertFalse(self.warning_msg in output)
@@ -65,9 +79,9 @@ class StreamHandlerTestCase(unittest.TestCase):
         with log.logger(stream_settings=self.settings):
             self._write_log_messages()
 
+        # Test.
         output = self.stream.getvalue()
 
-        # Test.
         self.assertTrue(self.critical_msg in output)
         self.assertTrue(self.error_msg in output)
         self.assertTrue(self.warning_msg in output)
@@ -82,9 +96,9 @@ class StreamHandlerTestCase(unittest.TestCase):
         with log.logger(stream_settings=self.settings):
             self._write_log_messages()
 
+        # Test.
         output = self.stream.getvalue()
 
-        # Test.
         self.assertTrue(self.critical_msg in output)
         self.assertTrue(self.error_msg in output)
         self.assertTrue(self.warning_msg in output)
@@ -99,9 +113,9 @@ class StreamHandlerTestCase(unittest.TestCase):
         with log.logger(stream_settings=self.settings):
             self._write_log_messages()
 
+        # Test.
         output = self.stream.getvalue()
 
-        # Test.
         self.assertTrue(self.critical_msg in output)
         self.assertTrue(self.error_msg in output)
         self.assertTrue(self.warning_msg in output)

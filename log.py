@@ -78,7 +78,8 @@ def logger(stream_settings=None, file_settings=None, http_settings=None):
             h.close()
 
 
-def _stream_handler(level, stream=None):
+def _stream_handler(stream=None, level=None):
+    level = level or WARNING
     fmt = logging.Formatter(
         '%(filename)s:%(lineno)d|%(levelname)8s|%(message)s'
         if level <= INFO else
@@ -90,12 +91,13 @@ def _stream_handler(level, stream=None):
     return h
 
 
-def _file_handler(path):
+def _file_handler(path, level=None):
     fmt = logging.Formatter(
         '%(asctime)s|%(filename)s:%(lineno)d|%(levelname)8s|%(message)s'
     )
+    level = level or NOTSET
     h = logging.FileHandler(path)
-    h.setLevel(NOTSET)
+    h.setLevel(level)
     h.setFormatter(fmt)
     return h
 
