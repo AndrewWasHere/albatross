@@ -7,7 +7,7 @@ Licensed under the BSD 3-clause License. See LICENSE.txt or
 import os
 
 
-def abspath(path, start=None):
+def abs_path(path, start=None):
     """The absolute path.
 
     Expands user constructs and converts relative paths to absolute ones.
@@ -25,11 +25,11 @@ def abspath(path, start=None):
     Raises:
         AttributeError: path and/or start is not a string-like object.
     """
-    def dirname(p):
+    def dir_name(p):
         return os.path.dirname(p) if os.path.isfile(p) else p
 
     path = os.path.expanduser(path)
     path = os.path.abspath(
-        os.path.join(dirname(start), path) if start else path
+        os.path.join(dir_name(start), path) if start else path
     )
     return path
