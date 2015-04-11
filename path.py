@@ -7,14 +7,14 @@ Licensed under the BSD 3-clause License. See LICENSE.txt or
 import os
 
 
-def abs_path(path, start=None):
+def abs_path(path, root=None):
     """The absolute path.
 
     Expands user constructs and converts relative paths to absolute ones.
 
     Args:
         path (str): The path to expand.
-        start (str or None): Absolute path to start relative expansion from
+        root (str or None): Absolute path to start relative expansion from
             (Can be a path to file or directory). Note: relative paths can
             give unexpected results.
             None => relative to current directory of running project.
@@ -23,13 +23,13 @@ def abs_path(path, start=None):
         path (str): Absolute path.
 
     Raises:
-        AttributeError: path and/or start is not a string-like object.
+        AttributeError: path and/or root is not a string-like object.
     """
     def dir_name(p):
         return os.path.dirname(p) if os.path.isfile(p) else p
 
     path = os.path.expanduser(path)
     path = os.path.abspath(
-        os.path.join(dir_name(start), path) if start else path
+        os.path.join(dir_name(root), path) if root else path
     )
     return path

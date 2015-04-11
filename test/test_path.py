@@ -27,11 +27,11 @@ class AbspathTestCase(unittest.TestCase):
         p = os.path.join(os.sep, 'absolute', 'path')
 
         # File as start.
-        p_prime = path.abs_path(p, start=__file__)
+        p_prime = path.abs_path(p, root=__file__)
         self.assertEqual(p_prime, p)
 
         # Directory as start.
-        p_prime = path.abs_path(p, start=root)
+        p_prime = path.abs_path(p, root=root)
         self.assertEqual(p_prime, p)
 
     def test_relative_to(self):
@@ -40,11 +40,11 @@ class AbspathTestCase(unittest.TestCase):
         p_gold = os.path.join(root, p)
 
         # File as start.
-        p_prime = path.abs_path(p, start=__file__)
+        p_prime = path.abs_path(p, root=__file__)
         self.assertEqual(p_prime, p_gold)
 
         # Directory as start.
-        p_prime = path.abs_path(p, start=root)
+        p_prime = path.abs_path(p, root=root)
         self.assertEqual(p_prime, p_gold)
 
     def test_bad_paths(self):
