@@ -7,3 +7,6 @@ Albatross is distributed under the BSD 3-Clause License. See LICENSE.txt or
 
 ## log.py
 Python logging wrapper.
+
+## path.py
+Python path manipulation functions.
