@@ -81,6 +81,10 @@ def logger(stream_settings=None, file_settings=None, http_settings=None):
 def add_log_parser_arguments(parser):
     """Add log arguments to command line parser.
 
+    Defines the following command line arguments:
+    --log: path to log file (if any)
+    -v: verbosity level. More => more verbose log messages.
+
     Args:
         parser (argparse.ArgumentParser): parser to add arguments to.
 
@@ -122,7 +126,7 @@ def configure_logging(args):
     }
     if args.log:
         settings['file_settings'] = {
-            'path': args.log
+            'path': args.log  # Caller is responsible for expanding path.
         }
 
     return settings
