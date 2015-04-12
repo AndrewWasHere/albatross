@@ -78,6 +78,56 @@ def logger(stream_settings=None, file_settings=None, http_settings=None):
             h.close()
 
 
+def add_log_parser_arguments(parser):
+    """Add log arguments to command line parser.
+
+    Args:
+        parser (argparse.ArgumentParser): parser to add arguments to.
+
+    Returns:
+        parser (argparse.ArgumentParser): parser with log arguments added.
+    """
+    parser.add_argument(
+        '--log',
+        nargs='?',
+        default=None,
+        help='Path to log file.'
+    )
+    parser.add_argument(
+        '-v',
+        action='count',
+        default=0,
+        help='Verbosity of log messages.'
+    )
+
+    return parser
+
+
+def configure_logging(args):
+    """Configure logging based on command line arguments.
+
+    Args:
+        args (argparse.Namespace): command line arguments containing those
+            allowed by log_parser_arguments().
+
+    Returns:
+        settings (dict): Log settings consumed by logger() context manager.
+    """
+    log_levels = (WARNING, INFO, DEBUG, NOTSET)
+    level = log_levels[min(args.v, len(log_levels) - 1)]
+    settings = {
+        'stream_settings': {
+            'level': level
+        }
+    }
+    if args.log:
+        settings['file_settings'] = {
+            'path': args.log
+        }
+
+    return settings
+
+
 def _stream_handler(stream=None, level=None):
     level = level or WARNING
     fmt = logging.Formatter(
