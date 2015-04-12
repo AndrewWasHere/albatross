@@ -59,5 +59,19 @@ class AbspathTestCase(unittest.TestCase):
         with self.assertRaises(AttributeError):
             path.abs_path('foo', 2)
 
+    def test_up_dir(self):
+        root = os.path.join(os.sep, 'root', 'branch')
+        relative_path = os.path.join('..', 'leaf')
+        p = path.abs_path(relative_path, root=root)
+
+        self.assertEqual(p, os.path.join(os.sep, 'root', 'leaf'))
+
+        root = __file__
+        root_dir = os.path.dirname(root)
+        p = os.path.abspath(os.path.join(root_dir, relative_path))
+        p_prime = path.abs_path(relative_path, root)
+        self.assertEqual(p_prime, p)
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
