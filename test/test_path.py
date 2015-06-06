@@ -6,6 +6,7 @@ Licensed under the BSD 3-clause License. See LICENSE.txt or
 """
 import os
 import unittest
+import sys
 
 import path
 
@@ -56,7 +57,15 @@ class AbspathTestCase(unittest.TestCase):
             path.abs_path(None)
 
         # Unallowed start types.
-        with self.assertRaises(AttributeError):
+        # Python 3.2 raises a TypeError.
+        # Python 3.4 raises an AttributeError.
+        # Other version are untested.
+        expected_error = (
+            TypeError
+            if sys.version_info.major == 3 and sys.version_info.minor == 2 else
+            AttributeError
+        )
+        with self.assertRaises(expected_error):
             path.abs_path('foo', 2)
 
     def test_up_dir(self):
