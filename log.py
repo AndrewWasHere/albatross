@@ -135,7 +135,7 @@ def configure_logging(args):
 def _stream_handler(stream=None, level=None):
     level = level or WARNING
     fmt = logging.Formatter(
-        '%(filename)s:%(lineno)d|%(levelname)8s|%(message)s'
+        '%(filename)s:%(lineno)d|%(levelname)s|%(message)s'
         if level <= INFO else
         '%(levelname)8s|%(message)s'
     )
@@ -147,7 +147,7 @@ def _stream_handler(stream=None, level=None):
 
 def _file_handler(path, level=None):
     fmt = logging.Formatter(
-        '%(asctime)s|%(filename)s:%(lineno)d|%(levelname)8s|%(message)s'
+        '%(asctime)s|%(filename)s:%(lineno)d|%(levelname)s|%(message)s'
     )
     level = level or NOTSET
     h = logging.FileHandler(path)
